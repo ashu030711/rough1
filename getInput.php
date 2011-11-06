@@ -184,9 +184,9 @@ $('#target').keypress(function(e){
 	 console.log('inside functionGameOver');
 	 $("#wordstotype_container").html("Your time was:"+gameTotalTime+"milliseconds");
 	 $("#type_speed").html(gameKeyStrokes+ "keys at" + gameKeyStrokes*1000 / gameTotalTime +" = "+gameKeyStrokes*60*1000/gameTotalTime/4.9);
-	 $ 
+	 $ 	
   }
-  function gameSpeed()
+  function gameSpeed()//yet not begin used
   {
      return instKeyStroke*1000/gameTotalTime;
   }
