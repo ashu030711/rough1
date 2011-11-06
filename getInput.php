@@ -30,7 +30,7 @@ $(document).ready(function () {
 
 function GameStart()
 {
-$.get("input2.txt",function(data) {
+$.get(getNewInputFile(),function(data) {
    fileString=data;
    wordtotype=getNewWord(); //PROBLEM this initialization
    fileWordsArray=fileString.split(' ');
@@ -171,9 +171,11 @@ $('#target').keypress(function(e){
   }
   function functionGameOver()
   {
-     //Initialise or change variables
+     
+	 //Initialise or change variables
 	 gameTotalTime=((new Date).getTime())-gameStartTime.getTime();
-	 console.log(gameTotalTime);
+	 gameKeyStokes = instKeyStrokes+1; //last key stroke added
+	 //console.log(gameTotalTime);
 	 //Chane page content
      $("#target").attr("disabled", true);//do not make it "disabled" as in a normal DOM element as was <input disabled="disabled" />
      $("#target").css('display', 'hidden');	//NOT WORKING  
@@ -182,10 +184,15 @@ $('#target').keypress(function(e){
 	 console.log('inside functionGameOver');
 	 $("#wordstotype_container").html("Your time was:"+gameTotalTime+"milliseconds");
 	 $("#type_speed").html(gameKeyStrokes+ "keys at" + gameKeyStrokes*1000 / gameTotalTime +" = "+gameKeyStrokes*60*1000/gameTotalTime/4.9);
-	 }
+	 $ 
+  }
   function gameSpeed()
   {
      return instKeyStroke*1000/gameTotalTime;
+  }
+  function getNewInputFile()
+  {
+     return "input2.txt";
   }
 </script>
 </body>
