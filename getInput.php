@@ -111,8 +111,8 @@ $('#target').keypress(function(e){
 	{
 	   instKeyStrokes=gameKeyStrokes+lentyped;
 	   instTime=(new Date().getTime())-gameStartTime.getTime();
-	   $("#type_speed").html(instKeyStrokes*60*1000/instTime/5);
-	   console.log("time "+instKeyStrokes+" "+instTime);
+	   $("#type_speed").html("Speed "+typeSpeed(instKeyStrokes, instTime));	
+       console.log("time "+instKeyStrokes+" "+instTime);
 	   nowordmismatch();
 	   return false;//return false generally
     }
@@ -183,12 +183,11 @@ $('#target').keypress(function(e){
 	 $('#target').blur();
 	 console.log('inside functionGameOver');
 	 $("#wordstotype_container").html("Your time was:"+gameTotalTime+"milliseconds");
-	 $("#type_speed").html(gameKeyStrokes+ "keys at" + gameKeyStrokes*1000 / gameTotalTime +" = "+gameKeyStrokes*60*1000/gameTotalTime/4.9);
-	 $ 	
+	 $("#type_speed").html("Your speed = "+typeSpeed(gameKeyStrokes, gameTotalTime));	
   }
-  function gameSpeed()//yet not begin used
+  function typeSpeed(keys, time)//yet not begin used
   {
-     return instKeyStroke*1000/gameTotalTime;
+     return parseInt(keys*60*1000/time/4.9);
   }
   function getNewInputFile()
   {
