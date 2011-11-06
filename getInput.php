@@ -16,12 +16,14 @@
 Type here <input id="target"  type="text" onfocus="this.value='';" disabled="disabled"  />
 </div>
 <div id="mismatch"></div>
+<div id="type_speed"></div>
 <script	>
 
  //code to check a words taken from input.txt  
 var wordin, wordtotype, fileString="", wordstyped; //main variables used    
 var complete, mismatch;
-var gameOver, gameStartTime, gameTotalTime, gameKeyStrokes;  //status variables
+var gameOver, gameStartTime, gameTotalTime, gameKeyStrokes;  //game overall status variables
+var instKeyStrokes, instTime; //instantaneous valriables reevaluated at each keypress
 $(document).ready(function () {
     GameStart();
 });
@@ -34,9 +36,10 @@ $.get("input2.txt",function(data) {
    fileWordsArray=fileString.split(' ');
    $("#wordstotype").html(fileString);
 });
-gameKeyStrokes=0;
+gameKeyStrokes=instKeyStrokes=0;
 gameOver=false;   
-gameStartTime=new Date(); //current time when statement executed
+gameStartTime=new Date();  //current time when statement executed
+instTime=0; //time since start of the game
 wordstyped=0;
 complete=false;
 mismatch=0;//measure of number of mismatches
@@ -108,6 +111,7 @@ $('#target').keypress(function(e){
 	{
 	   instKeyStrokes=gameKeyStrokes+lentyped;
 	   instTime=(new Date().getTime())-gameStartTime.getTime();
+	   $("#type_speed").html(instKeyStrokes*60*1000/instTime/5);
 	   console.log("time "+instKeyStrokes+" "+instTime);
 	   nowordmismatch();
 	   return false;//return false generally
@@ -163,11 +167,13 @@ $('#target').keypress(function(e){
      wordin="";
      wordtotype=getNewWord();
      t.focus();
+	 gameKeyStrokes = instKeyStrokes;
   }
   function functionGameOver()
   {
      //Initialise or change variables
 	 gameTotalTime=((new Date).getTime())-gameStartTime.getTime();
+	 console.log(gameTotalTime);
 	 //Chane page content
      $("#target").attr("disabled", true);//do not make it "disabled" as in a normal DOM element as was <input disabled="disabled" />
      $("#target").css('display', 'hidden');	//NOT WORKING  
@@ -175,6 +181,11 @@ $('#target').keypress(function(e){
 	 $('#target').blur();
 	 console.log('inside functionGameOver');
 	 $("#wordstotype_container").html("Your time was:"+gameTotalTime+"milliseconds");
+	 $("#type_speed").html(gameKeyStrokes+ "keys at" + gameKeyStrokes*1000 / gameTotalTime +" = "+gameKeyStrokes*60*1000/gameTotalTime/4.9);
+	 }
+  function gameSpeed()
+  {
+     return instKeyStroke*1000/gameTotalTime;
   }
 </script>
 </body>
