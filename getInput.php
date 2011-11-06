@@ -1,20 +1,28 @@
 <head>
 <script src="http://localhost/scripts/jquery.js"></script>
 <style>
-#wordstotype{
- color:green;
+#wordstyped{
+   color:#222;
 }
-#target{
-
+#wordstotype, #wordtotype{
+   color:green;
+}
+#wordtotype{
+   text-deoration:underline;
 }
 </style>
 </head>
 <body>
+<span id="wait_start"> Wait <span id="wait_seconds"> </span> seconds </span>
 <div id="wordstotype_container">
-<div id="wordstotype"></div>
+<span id="wordstyped"></span>
+<span id="wordtotype"></span>
+<span id="wordstotype"></span>
 
+<br />
 Type here <input id="target"  type="text" onfocus="this.value='';" disabled="disabled"  />
 </div>
+
 <div id="mismatch"></div>
 <div id="type_speed"></div>
 <script	>
@@ -25,9 +33,10 @@ var complete, mismatch;
 var gameOver, gameStartTime, gameTotalTime, gameKeyStrokes;  //game overall status variables
 var instKeyStrokes, instTime; //instantaneous valriables reevaluated at each keypress
 $(document).ready(function () {
-    GameStart();
+    waitSeconds(5);
 });
 
+var seconds=3;  //number of seconds to wait before the start if the game
 function GameStart()
 {
 $.get(getNewInputFile(),function(data) {
@@ -193,5 +202,24 @@ $('#target').keypress(function(e){
   {
      return "input2.txt";
   }
+  function waitSeconds()
+  {
+      if(seconds == -1)
+	     return;
+	  else 
+	     t=setTimeout('waitSeconds()',1000);
+      console.log('seconds'+seconds);
+      $("#wait_seconds").html(seconds);
+	  
+	  
+	  if(seconds == 0)
+	     {
+		    $("#wait_start").hide('1400');
+			   GameStart();
+			seconds=-1;
+		 }
+      else{seconds -- ;
+	     return;}
+  } 
 </script>
 </body>
