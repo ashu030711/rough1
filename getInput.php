@@ -33,20 +33,12 @@ var complete, mismatch;
 var gameOver, gameStartTime, gameTotalTime, gameKeyStrokes;  //game overall status variables
 var instKeyStrokes, instTime; //instantaneous valriables reevaluated at each keypress
 $(document).ready(function () {
-    waitSeconds(5);
+    GameInit();
 });
 
 var seconds=3;  //number of seconds to wait before the start if the game
-function GameStart()
+function GameStart()//called by GameInit function
 {
-$.get(getNewInputFile(),function(data) {
-   fileString=data;
-   wordtotype=getNewWord(); //PROBLEM this initialization
-   fileWordsArray=fileString.split(' ');
-   $("#wordstotype").html(fileString);
-});
-gameKeyStrokes=instKeyStrokes=0;
-gameOver=false;   
 gameStartTime=new Date();  //current time when statement executed
 instTime=0; //time since start of the game
 wordstyped=0;
@@ -58,9 +50,9 @@ mismatch=0;//measure of number of mismatches
 
 $("#target").removeAttr("disabled");
 $("#target").focus();//focus the element after enable by removing disabled property --IMPORTANT  
-     
+wordtotype=getNewWord();//PROBLEMS IF PLACED EARLIER     
     /*whenever a KEY IS PRESSED*/
-}
+}//end of GameStart()
 $('#target').keypress(function(e){
 	wordin=getValue();
 	
@@ -144,7 +136,7 @@ $('#target').keypress(function(e){
     var j=0; 
     var c;
     // console.log('characters');
-    while( (c=str.charAt(j)) == ' ' || c =='\n'|| str.charCodeAt(j)==13)
+	while( (c=str.charAt(j)) == ' ' || c =='\n'|| str.charCodeAt(j)==13)
 	{
 		j++;
 	    console.log(c);
@@ -202,12 +194,20 @@ $('#target').keypress(function(e){
   {
      return "input2.txt";
   }
-  function waitSeconds()
+  function GameInit()
   {
+      $.get(getNewInputFile(),function(data) {
+         fileString=data;
+         fileWordsArray=fileString.split(' ');
+         $("#wordstotype").html(fileString);
+      });
+      gameKeyStrokes=instKeyStrokes=0; 
+      gameOver=false;   
+	  
       if(seconds == -1)
 	     return;
 	  else 
-	     t=setTimeout('waitSeconds()',1000);
+	     t=setTimeout('GameInit()',1000);
       console.log('seconds'+seconds);
       $("#wait_seconds").html(seconds);
 	  
